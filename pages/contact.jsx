@@ -96,7 +96,7 @@ const Contact = () => {
 
 
   if (user === null) {
-    return <h1>Sorry, you don't have permission to view this page</h1>;
+    return <h1>Sorry, you dont have permission to view this page</h1>;
   }
 
   return (

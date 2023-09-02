@@ -30,10 +30,7 @@ export default function Welcome() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h4" gutterBottom>
-          Thanu's Money App
-        </Typography>
-        <Typography variant="h6" gutterBottom>
-          Janakodilaude vishwasthasthasthapanam
+          Payment App
         </Typography>
         <Box mt={5} sx={{ width: '100%' }}>
           <Link href="/Login" passHref>

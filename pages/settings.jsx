@@ -4,7 +4,7 @@ import { useUserAuth } from '@/context/UserAuthContext';
 import { Button, Typography } from '@mui/material';
 import { auth } from '@/config/firebase';
 
-const settings = () => {
+const Settings = () => {
     //security settings
     const { user } = useUserAuth();
 
@@ -24,7 +24,7 @@ const settings = () => {
       });
     };
     if (user==null) {
-      return <h1>Sorry you don't have permission to view this page</h1>
+      return <h1>Sorry you dont have permission to view this page</h1>
     }
   return (
     <Layout>
@@ -35,4 +35,4 @@ const settings = () => {
   )
 }
 
-export default settings
+export default Settings
