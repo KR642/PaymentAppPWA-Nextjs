@@ -37,7 +37,7 @@ export default function Register() {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <Paper 
-      className='bgbg'
+    
         elevation={0} 
         sx={{
           marginTop: 0,
@@ -45,7 +45,8 @@ export default function Register() {
           flexDirection: 'column',
           alignItems: 'center',
           padding: 3,
-          borderRadius: 3
+          borderRadius: 3,
+          backgroundColor:'transparent',
         }}
       >
         <Typography variant="h4" gutterBottom>
