@@ -4,10 +4,10 @@ import { useUserAuth } from '@/context/UserAuthContext';
 import { collection, doc, getDoc, onSnapshot, query, where } from 'firebase/firestore';
 import { db } from '@/config/firebase';
 import { decryptData, decryptQ2 } from '@/utilities/encryptionMethods';
-import { Container,Button, Card, CardContent, CardHeader, Typography, IconButton } from '@mui/material';
+import { Container,Button, Card, CardContent, CardHeader, Typography, IconButton, CssBaseline } from '@mui/material';
 import Layout from './components/Layout';
 import { ArrowBack as ArrowBackIcon } from '@mui/icons-material';
-import { TextField, FormControl, FormLabel } from '@mui/material';
+import { Paper, TextField, FormControl, FormLabel } from '@mui/material';
 import { loadStripe } from '@stripe/stripe-js';
 
 
@@ -72,14 +72,26 @@ const ViewContact = () => {
   return (
     <Layout>
       <Container component="main" maxWidth="xs">
-      <IconButton color="primary" onClick={goBack}>
+        <CssBaseline/>
+        <Paper
+          
+          elevation={0}
+          sx={{
+            marginTop: 0,
+            padding: 3,
+            display: 'flex',
+            flexDirection: 'column',
+            backgroundColor:'transparent'
+          }}
+        >
+      <IconButton className='fl' color="primary" onClick={goBack}>
           <ArrowBackIcon />
-        </IconButton>
+        </IconButton> 
         {contact && (
-          <Card elevation={3}>
-            <CardHeader title={`${contact.firstName} ${contact.lastName}`} />
-            <CardContent>
-              <Typography variant="body1">
+          <Card elevation={2} sx={{backgroundColor:'transparent'}}>
+            <CardHeader  title={`${contact.firstName} ${contact.lastName}`} />
+            <CardContent >
+              <Typography  variant="body1">
                 <strong>First Name: </strong>{contact.firstName}
               </Typography>
               <Typography variant="body1">
@@ -109,6 +121,7 @@ const ViewContact = () => {
           </Button>
          
         </FormControl>
+        </Paper>
       </Container>
     </Layout>
   );

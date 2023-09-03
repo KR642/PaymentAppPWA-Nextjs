@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import Layout from './components/Layout'
 import { useUserAuth } from '@/context/UserAuthContext';
-import { Button, Typography } from '@mui/material';
+import { Button, Container, CssBaseline, Paper, Typography } from '@mui/material';
 import { auth } from '@/config/firebase';
 
 const Settings = () => {
@@ -28,8 +28,24 @@ const Settings = () => {
     }
   return (
     <Layout>
-        <Typography variant='h4' gutterBottom textAlign={'center'}>Settings</Typography>
+      <Container component="main" maxWidth="md">
+        <CssBaseline />
+        <Paper className='background-gradient'
+        elevation={0}
+        sx={{
+          marginTop: 0,
+          padding: 3,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}>
+          
+      <Typography variant='h4' gutterBottom textAlign={'center'}>Settings</Typography>
         <Button onClick={logout}>Logout</Button>
+        </Paper>
+
+      </Container>
+        
     </Layout>
     
   )

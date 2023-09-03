@@ -37,9 +37,10 @@ export default function Register() {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <Paper 
-        elevation={3} 
+      className='bgbg'
+        elevation={0} 
         sx={{
-          marginTop: 8,
+          marginTop: 0,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',

@@ -300,18 +300,20 @@ const Home = () => {
     return <h1>Sorry you dont have permission to view this page</h1>
   }
   return (
-    <Layout>
-      <Container component="main" maxWidth="xs">
+    
+<Layout>
+      <Container component="main" maxWidth="xs" >
         <CssBaseline />
         <Paper
-          elevation={3}
+        className='background-gradient'
+          elevation={0}
           sx={{
-            marginTop: 8,
+            marginTop: 0,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             padding: 3,
-            borderRadius: 3,
+            borderRadius: 0,
           }}
         >
           {!editing && userDetails ? (
@@ -379,16 +381,7 @@ const Home = () => {
               </form>
             </>
           )}
-        </Paper>
-        <Snackbar
-          open={snackbarOpen}
-          autoHideDuration={2000}
-          onClose={() => setSnackbarOpen(false)}
-          message={snackbarMessage}
-          sx={{ backgroundColor: snackbarColor === 'success' ? 'green' : 'red' }}
-        />
-
-{contacts.length > 0 && (
+          {contacts.length > 0 && (
           <FormControl fullWidth variant="outlined" sx={{ mt: 2 }}>
             <InputLabel id="contact-select-label">Select a Contact</InputLabel>
             <Select
@@ -406,8 +399,20 @@ const Home = () => {
             </Select>
           </FormControl>
         )}
+        </Paper>
+        <Snackbar
+          open={snackbarOpen}
+          autoHideDuration={2000}
+          onClose={() => setSnackbarOpen(false)}
+          message={snackbarMessage}
+          sx={{ backgroundColor: snackbarColor === 'success' ? 'green' : 'red' }}
+        />
+
+
       </Container>
     </Layout>
+
+    
   );
 };
 

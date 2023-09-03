@@ -50,11 +50,12 @@ export default function BottomNav() {
       value={value}
       onChange={handleChange}
       showLabels
+      
       sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}
     >
-      <BottomNavigationAction label="Contact" icon={<ContactsIcon />} />
-      <BottomNavigationAction label="Home" icon={<HomeIcon />} />
-      <BottomNavigationAction label="Settings" icon={<SettingsIcon />} />
+      <BottomNavigationAction className='blck' label="Contact" icon={<ContactsIcon />} />
+      <BottomNavigationAction className='blck' label="Home" icon={<HomeIcon />} />
+      <BottomNavigationAction className='blck' label="Settings" icon={<SettingsIcon />} />
     </BottomNavigation>
   );
 }

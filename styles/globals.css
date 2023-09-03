@@ -1,0 +1,30 @@
+body .background-gradient {
+    height: 100vh;
+    padding: 0 !important;
+    background: linear-gradient(to bottom, #CB2B93, #9546C4, #5E61F4) !important;
+  }
+
+  .fl{
+    display: flex;
+    align-self: flex-start;
+  }
+
+  .bgbg{
+background: transparent;
+  }
+
+  body, h1, h2, h3, h4, h5, h6, p, a, span, th, tr {
+    color: white;
+  }
+
+  form, form * {
+    color: white !important;
+  }
+
+  .blck>span{
+    color: black !important;
+  }
+
+  .blk > p, span {
+    color: white !important;
+  }

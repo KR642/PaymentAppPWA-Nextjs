@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Button, Container, Typography, Box, CssBaseline, Avatar } from '@mui/material';
+import {Paper, Button, Container, Typography, Box, CssBaseline, Avatar } from '@mui/material';
 import { styled } from '@mui/system';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
@@ -8,21 +8,33 @@ const StyledContainer = styled(Container)`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #f5f7fa;
+  background-color: transparent;
 `;
 
 export default function Welcome() {
   return (
     <StyledContainer component="main" maxWidth="xs">
       <CssBaseline />
+      <Paper
+        className='bgbg'
+          elevation={0}
+          sx={{
+            marginTop: 0,
+            padding: 3,
+            display: 'flex',
+            flexDirection: 'column',
+            
+          }}
+        >
       <Box 
+
         sx={{
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           padding: 3,
           borderRadius: 2,
-          backgroundColor: '#ffffff',
+          backgroundColor: '#transparent',
           boxShadow: 3,
         }}
       >
@@ -53,6 +65,7 @@ export default function Welcome() {
           </Link>
         </Box>
       </Box>
+      </Paper>
     </StyledContainer>
   );
 }

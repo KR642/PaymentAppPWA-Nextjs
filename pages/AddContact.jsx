@@ -109,9 +109,10 @@ const AddContact = () => {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <Paper
-        elevation={3}
+      className='background-gradient'
+        elevation={0}
         sx={{
-          marginTop: 8,
+          marginTop: 0,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
