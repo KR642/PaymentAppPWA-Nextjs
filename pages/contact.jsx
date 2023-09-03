@@ -177,6 +177,7 @@ const Contact = () => {
 <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
         <Paper
           style={{
+            color:"",
             position: 'absolute',
             width: 400,
             top: '50%',
@@ -188,7 +189,7 @@ const Contact = () => {
             gap: '1em'
           }}
         >
-          <Typography variant="h6">Are you sure you want to delete this contact?</Typography>
+          <Typography variant="h6" sx={{color:'black'}}>Are you sure you want to delete this contact?</Typography>
           <div>
             <Button variant="outlined" color="primary" onClick={() => setModalOpen(false)}>No</Button>
             <Button variant="contained" color="secondary" onClick={handleDelete}>Yes</Button>
