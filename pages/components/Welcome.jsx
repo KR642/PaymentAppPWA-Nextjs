@@ -16,14 +16,14 @@ export default function Welcome() {
     <StyledContainer component="main" maxWidth="xs">
       <CssBaseline />
       <Paper
-        className='bgbg'
+
           elevation={0}
           sx={{
             marginTop: 0,
             padding: 3,
             display: 'flex',
             flexDirection: 'column',
-            
+            backgroundColor:'transparent'
           }}
         >
       <Box 
@@ -48,7 +48,8 @@ export default function Welcome() {
           <Link href="/Login" passHref>
             <Button 
               variant="contained" 
-              color="primary" 
+              color='primary'
+              sx={{backgroundColor:'#ffff', color:'#000'}}
               style={{ marginRight: '1rem', width: '45%' }}
             >
               Login
@@ -58,6 +59,7 @@ export default function Welcome() {
             <Button 
               variant="outlined" 
               color="primary" 
+              sx={{backgroundColor:'transparent', color:'#000', borderColor:'#fff'}}
               style={{ width: '45%' }}
             >
               Sign Up
