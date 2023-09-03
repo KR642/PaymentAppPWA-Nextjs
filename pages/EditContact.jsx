@@ -186,10 +186,10 @@ const EditContact = ({ id }) => {
           <Button
             variant="contained"
             color="primary"
-            sx={{ mt: 3, mb: 2 }}
+            sx={{ mt: 3, mb: 2, borderRadius:'15px', backgroundColor: '#fff' }}
             onClick={handleSave}
           >
-            Save Changes
+            <p className='no-p'>Save Changes</p>
           </Button>
         </Paper>
       </Container>

@@ -28,3 +28,13 @@ background: transparent;
   .blk > p, span {
     color: white !important;
   }
+
+  .no-p{
+    margin:0;
+    padding: 0;
+    color: #CB2B93 !important;
+  }
+
+  button:hover{
+    background-color: #5E61F4 !important;
+  }

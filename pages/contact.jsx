@@ -125,10 +125,10 @@ const Contact = () => {
               variant="contained"
               color="primary"
               size="large"
-              startIcon={<AddIcon />}
-              sx={{ marginBottom: 3 }} // Add margin at the bottom
+              startIcon={<AddIcon sx={{color:'#CB2B93'}}/>}
+              sx={{ marginBottom: 3,borderRadius:'15px', backgroundColor: '#fff' }} // Add margin at the bottom
             >
-              Add Contact
+              <p className='no-p'>Add Contact</p>
             </Button>
           </Link>
           <TableContainer sx={{ minWidth: '100%', paddingBottom: '2rem' }}>

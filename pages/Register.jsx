@@ -74,8 +74,8 @@ export default function Register() {
             required
           />
           {error && <Typography color="error">{error}</Typography>}
-          <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
-            Register
+          <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2, borderRadius:'15px', backgroundColor: '#fff' }}>
+            <p className='no-p'>Register</p>
           </Button>
           <Box mt={2} textAlign="center">
             <Typography>

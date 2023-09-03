@@ -318,15 +318,12 @@ const Home = () => {
         >
           {!editing && userDetails ? (
             <>
-              <Typography variant="h4" gutterBottom>
-                Your Details
-              </Typography>
               <Typography variant="body1">First Name: {userDetails.firstName}</Typography>
               <Typography variant="body1">Last Name: {userDetails.lastName}</Typography>
               <Typography variant="body1">Sort Code: {userDetails.sortCode}</Typography>
               <Typography variant="body1">Account Number: {userDetails.accountNo}</Typography>
-              <Button variant="contained" color="primary" fullWidth sx={{ mt: 2 }} onClick={handleEdit}>
-                Edit Details
+              <Button variant="contained" color="primary" fullWidth sx={{ mt: 2, borderRadius:'15px', backgroundColor: '#fff' }} onClick={handleEdit}>
+                <p className='no-p'>Edit Details</p>
               </Button>
             </>
           ) : (
@@ -375,8 +372,8 @@ const Home = () => {
                   fullWidth
                   required
                 />
-                <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
-                  {userDetails ? 'Update Details' : 'Submit'}
+                <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2, borderRadius:'15px', backgroundColor: '#fff'  }}>
+                  {userDetails ? <p className='no-p'>Update Details</p> : <p className='no-p'>Save Details</p>}
                 </Button>
               </form>
             </>

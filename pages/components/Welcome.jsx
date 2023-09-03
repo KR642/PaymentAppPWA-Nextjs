@@ -49,8 +49,8 @@ export default function Welcome() {
             <Button 
               variant="contained" 
               color='primary'
-              sx={{backgroundColor:'#ffff', color:'#000'}}
-              style={{ marginRight: '1rem', width: '45%' }}
+              sx={{backgroundColor:'#ffff', color:'#000', borderRadius:'15px'}}
+              style={{ marginRight: '1rem', width: '45%'}}
             >
               Login
             </Button>
@@ -59,7 +59,7 @@ export default function Welcome() {
             <Button 
               variant="outlined" 
               color="primary" 
-              sx={{backgroundColor:'transparent', color:'#000', borderColor:'#fff'}}
+              sx={{backgroundColor:'transparent', color:'#000', borderColor:'#fff', borderRadius:'15px'}}
               style={{ width: '45%' }}
             >
               Sign Up

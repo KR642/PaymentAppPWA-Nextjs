@@ -170,8 +170,8 @@ const AddContact = () => {
             required
           />
 
-<Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
-            Add Contact
+<Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2, borderRadius:'15px', backgroundColor: '#fff' }}>
+            <p className='no-p'>Add Contact</p>
           </Button>
         </form>
       </Paper>

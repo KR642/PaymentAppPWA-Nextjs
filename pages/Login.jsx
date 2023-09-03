@@ -61,8 +61,8 @@ export default function Login() {
             required
           />
           {error && <Typography color="error">{error}</Typography>}
-          <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
-            Login
+          <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2, borderRadius:'15px', backgroundColor: '#fff' }}>
+           <p className='no-p'>Login</p> 
           </Button>
           <Box mt={2} textAlign="center">
             <Typography>
