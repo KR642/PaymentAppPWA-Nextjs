@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useUserAuth } from '@/context/UserAuthContext';
-import { collection, doc, getDoc, onSnapshot, query, where } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc, onSnapshot, query, where } from 'firebase/firestore';
 import { db } from '@/config/firebase';
 import { decryptData, decryptQ2 } from '@/utilities/encryptionMethods';
-import { Container,Button, Card, CardContent, CardHeader, Typography, IconButton, CssBaseline } from '@mui/material';
+import { Container,Button, Card, CardContent, CardHeader, Typography, IconButton, CssBaseline, Snackbar } from '@mui/material';
 import Layout from './components/Layout';
 import { ArrowBack as ArrowBackIcon } from '@mui/icons-material';
 import { Paper, TextField, FormControl, FormLabel } from '@mui/material';
-import { loadStripe } from '@stripe/stripe-js';
+
 
 
 const ViewContact = () => {
@@ -17,7 +17,13 @@ const ViewContact = () => {
   const { user } = useUserAuth();
   const [q2, setQ2] = useState(null);
   const [contact, setContact] = useState(null);
-  const stripePromise = loadStripe('pk_test_51Nl0ikHeXPGD3OpRPcGcDiVnzWYjqDW1k9N5eEwdiJSI8919go9E2QAyRIZAJLapx6vmy23KiBL5gyi77L3sndSM00Spl83H9m');
+  const [error, setError] = useState(null);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  
+  
+  const [amount, setAmount] = useState(0);
+  const [desc, setDesc] = useState('');
 
   useEffect(() => {
     const fetchQ2 = async () => {
@@ -52,6 +58,7 @@ const ViewContact = () => {
             lastName: decryptData(contactSnap.data().lastName, q2),
             accountNo: decryptData(contactSnap.data().accountNo, q2),
             sortCode: decryptData(contactSnap.data().sortCode, q2),
+            email: contactSnap.data().emailId,
           };
           setContact(decryptedData);
         }
@@ -64,8 +71,39 @@ const ViewContact = () => {
   const goBack = () => {
     router.back();
   };
-
-  const [amount, setAmount] = useState(0);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    if (!amount || !desc) {
+      setError('Both amount and description are required.');
+      return;
+    }
+  
+    try {
+      const paymentRequestRef = collection(db, 'PaymentRequests1');
+      await addDoc(paymentRequestRef, {
+        amount,
+        description: desc,
+        initiatedBy: user.uid,
+        sentStatus: 'RequestSent',
+        sentTo: contact ? contact.email : '', // Make sure contact.email exists
+        settleStatus: 'Pending'
+      });
+      setError(null);
+      setSnackbarMessage("The request has been sent.");
+      setSnackbarOpen(true);
+  
+      setTimeout(() => {
+        setSnackbarOpen(false);
+        router.back(); // Navigate back
+      }, 2000);
+      // You can add logic here to notify the user of successful submission
+    } catch (error) {
+      setError('Error sending payment request.');
+      console.error('Error sending payment request:', error);
+    }
+  };
+  
 
   
 
@@ -87,7 +125,7 @@ const ViewContact = () => {
       <IconButton className='fl' color="primary" onClick={goBack}>
           <ArrowBackIcon />
         </IconButton> 
-        {contact && (
+        {/* {contact && (
           <Card elevation={2} sx={{backgroundColor:'transparent'}}>
             <CardHeader  title={`${contact.firstName} ${contact.lastName}`} />
             <CardContent >
@@ -105,23 +143,42 @@ const ViewContact = () => {
               </Typography>
             </CardContent>
           </Card>
-        )}
+        )} */}
 
-<FormControl component="fieldset" >
-          <FormLabel component="legend" sx={{paddingTop:5, paddingBottom:2}}>Transfer Amount</FormLabel>
+<form onSubmit={handleSubmit} sx={{ width: '100%', mt: 3 }}>
+       
           <TextField
             label="Amount in GBP"
-            variant="outlined"
             type="number"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
+            variant="outlined"
+            margin="normal"
+            fullWidth
+            required
           />
-          <Button variant="contained" color="primary">
-            Transfer Money
+          <TextField
+            label="Description"
+            type="text"
+            value={desc}
+            onChange={(e) => setDesc(e.target.value)}
+            variant="outlined"
+            margin="normal"
+            fullWidth
+            required
+          />
+    
+<Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2, borderRadius:'15px', backgroundColor: '#fff' }}>
+            <p className='no-p'>Sent Request to {contact && contact.firstName} {contact && contact.lastName}</p>
           </Button>
-         
-        </FormControl>
+        </form>
         </Paper>
+        <Snackbar
+  open={snackbarOpen}
+  autoHideDuration={2000}
+  onClose={() => setSnackbarOpen(false)}
+  message={snackbarMessage}
+/>
       </Container>
     </Layout>
   );

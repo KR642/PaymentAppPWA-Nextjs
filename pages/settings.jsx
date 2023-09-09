@@ -1,13 +1,18 @@
 import React, { useEffect } from 'react'
 import Layout from './components/Layout'
 import { useUserAuth } from '@/context/UserAuthContext';
-import { Button, Container, CssBaseline, Paper, Typography } from '@mui/material';
+import { Box, Button, Container, CssBaseline, Fab, Paper, Typography } from '@mui/material';
 import { auth } from '@/config/firebase';
+import LogoutIcon from '@mui/icons-material/Logout';
+import HistoryIcon from '@mui/icons-material/History';
+import { useRouter } from 'next/router';
+import CallReceivedIcon from '@mui/icons-material/CallReceived';
+import InboxIcon from '@mui/icons-material/Inbox';
 
 const Settings = () => {
     //security settings
     const { user } = useUserAuth();
-
+    const router = useRouter();
     useEffect(() => {
       if (user==null && typeof window !== 'undefined') {
         window.location.href = '/';
@@ -30,6 +35,8 @@ const Settings = () => {
     <Layout>
       <Container component="main" maxWidth="md">
         <CssBaseline />
+        <Typography variant='h4' gutterBottom textAlign={'center'}>Settings</Typography>
+
         <Paper className='background-gradient'
         elevation={0}
         sx={{
@@ -37,11 +44,55 @@ const Settings = () => {
           padding: 3,
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center',
+          alignItems: 'left',
+          width:'100%',
+          justifyContent:'center'
         }}>
           
-      <Typography variant='h4' gutterBottom textAlign={'center'}>Settings</Typography>
-        <Button onClick={logout}>Logout</Button>
+        
+        <Box sx={{marginBottom:'5px', display:'flex', alignItems:'center', justifyContent:'left'}}>
+          <HistoryIcon sx={{color:'white', marginRight:'2px'}}/>
+        <a onClick={() => {
+          router.push('/Reqhistory')
+        }}>
+
+        <Typography variant='h6'>Request History</Typography>
+
+        </a>
+        
+        </Box>
+
+        <Box sx={{marginBottom:'5px', display:'flex', alignItems:'center', justifyContent:'left'}}>
+          <CallReceivedIcon sx={{color:'white', marginRight:'2px'}}/>
+        <a onClick={() => {
+          router.push('/Sethistory')
+        }}>
+
+        <Typography variant='h6'>Settlement History</Typography>
+
+        </a>
+        
+        
+        </Box>
+
+        <Box sx={{marginBottom:'5px', display:'flex', alignItems:'center', justifyContent:'left'}}>
+          <LogoutIcon sx={{color:'white', marginRight:'2px'}}/>
+        <a onClick={logout}>
+
+        <Typography variant='h6'>Logout</Typography>
+
+        </a>
+        
+        
+        </Box>
+        
+        {/* <Button variant='contained' startIcon={<LogoutIcon/>} onClick={logout}>Logout</Button> */}
+        
+        <Fab color="primary" aria-label="add" sx={{position: 'absolute', bottom:70, right:16}} onClick={() => {
+          router.push('/Inbox');
+        }}>
+        <InboxIcon />
+      </Fab>
         </Paper>
 
       </Container>

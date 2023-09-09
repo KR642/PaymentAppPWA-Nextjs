@@ -55,6 +55,7 @@ const EditContact = ({ id }) => {
           lastName: decryptData(contactDoc.data().lastName, q2),
           sortCode: decryptData(contactDoc.data().sortCode, q2),
           accountNo: decryptData(contactDoc.data().accountNo, q2),
+          emailId: contactDoc.data().emailId,
         };
 
         setContact(decryptedData);
@@ -82,6 +83,7 @@ const EditContact = ({ id }) => {
         lastName: encryptData(contact.lastName, q2),
         sortCode: encryptData(contact.sortCode, q2),
         accountNo: encryptData(contact.accountNo, q2),
+        emailId: contact.emailId
       };
 
       const contactRef = doc(db, 'Contacts', id);
@@ -181,6 +183,17 @@ const EditContact = ({ id }) => {
                 onChange={e => setContact(prev => ({ ...prev, accountNo: e.target.value }))}
               />
             </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <TextField
+                variant="outlined"
+                fullWidth
+                label="Email"
+                value={contact.emailId}
+                onChange={e => setContact(prev => ({ ...prev, emailId: e.target.value }))}
+              />
+            </Grid>
+
             {/* Add more fields like Sort Code and Account Number here, similar to above */}
           </Grid>
           <Button

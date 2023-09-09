@@ -20,8 +20,12 @@ import {
   FormControl,
   InputLabel,
   Select,
-  MenuItem
+  MenuItem,
+  Box
 } from '@mui/material';
+import InboxIcon from '@mui/icons-material/Inbox';
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
 
 const Home = () => {
   const router = useRouter();
@@ -142,6 +146,8 @@ const Home = () => {
     }
   }, [user, q2]);
 
+  
+
   const handleChange = (event) => {
     const contactId = event.target.value;
     setSelectedContact(contactId);
@@ -251,6 +257,7 @@ const Home = () => {
         sortCode: encrypt(formData.sortCode, quantumKey),
         accountNo: encrypt(formData.accountNo, quantumKey),
         userId: user.uid,
+        emailId: user.email,
         q2: encryptedQuantumKey
       };
 
@@ -304,6 +311,7 @@ const Home = () => {
 <Layout>
       <Container component="main" maxWidth="xs" >
         <CssBaseline />
+
         <Paper
         className='background-gradient'
           elevation={0}
@@ -318,14 +326,23 @@ const Home = () => {
         >
           {!editing && userDetails ? (
             <>
-              <Typography variant="body1">First Name: {userDetails.firstName}</Typography>
-              <Typography variant="body1">Last Name: {userDetails.lastName}</Typography>
-              <Typography variant="body1">Sort Code: {userDetails.sortCode}</Typography>
-              <Typography variant="body1">Account Number: {userDetails.accountNo}</Typography>
-              <Button variant="contained" color="primary" fullWidth sx={{ mt: 2, borderRadius:'15px', backgroundColor: '#fff' }} onClick={handleEdit}>
+            <Box
+            sx={{
+              border:'2px solid white',
+              padding:'15px',
+              borderRadius:'15px',
+              marginTop:3,
+            }}
+            >
+              <Typography variant="h6">First Name: {userDetails.firstName}</Typography>
+              <Typography variant="h6">Last Name: {userDetails.lastName}</Typography>
+              <Typography variant="h6">Sort Code: {userDetails.sortCode}</Typography>
+              <Typography variant="h6">Account Number: {userDetails.accountNo}</Typography>
+              </Box>
+             <Button variant="contained" color="primary" fullWidth sx={{ mt: 2, borderRadius:'15px', backgroundColor: '#fff', width:"50%" }} onClick={handleEdit}>
                 <p className='no-p'>Edit Details</p>
               </Button>
-            </>
+              </>
           ) : (
             <>
               <Typography variant="h4" gutterBottom>
@@ -372,10 +389,13 @@ const Home = () => {
                   fullWidth
                   required
                 />
-                <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2, borderRadius:'15px', backgroundColor: '#fff'  }}>
+                <Paper elevation={0} sx={{backgroundColor:'transparent', display:'flex', justifyContent:'center'}}>
+                <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2, borderRadius:'15px', backgroundColor: '#fff', width:"50%"  }}>
                   {userDetails ? <p className='no-p'>Update Details</p> : <p className='no-p'>Save Details</p>}
                 </Button>
+                </Paper>
               </form>
+              
             </>
           )}
           {contacts.length > 0 && (
@@ -396,6 +416,11 @@ const Home = () => {
             </Select>
           </FormControl>
         )}
+        <Fab color="primary" aria-label="add" sx={{position: 'absolute', bottom:70, right:16}} onClick={() => {
+          router.push('/Inbox');
+        }}>
+        <InboxIcon />
+      </Fab>
         </Paper>
         <Snackbar
           open={snackbarOpen}

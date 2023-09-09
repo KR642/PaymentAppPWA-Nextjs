@@ -5,6 +5,7 @@ import { useUserAuth } from '@/context/UserAuthContext';
 import { collection, query, where, onSnapshot, deleteDoc, doc } from 'firebase/firestore';
 import { db } from '@/config/firebase';
 import { decryptData, decryptQ2 } from '@/utilities/encryptionMethods'; // Import decryptQ2
+import { useRouter } from 'next/router';
 import { 
   Container, 
   Paper, 
@@ -19,11 +20,15 @@ import {
   IconButton, 
   Button, 
   Modal,
+  Fab,
 } from '@mui/material';
 import { Edit as EditIcon, Delete as DeleteIcon, Add as AddIcon } from '@mui/icons-material';
+import InboxIcon from '@mui/icons-material/Inbox';
+
 
 const Contact = () => {
   const { user } = useUserAuth();
+  const router = useRouter();
   const [contacts, setContacts] = useState([]);
   const [q2, setQ2] = useState(null); // State to hold decrypted q2
   const [modalOpen, setModalOpen] = useState(false);
@@ -66,6 +71,7 @@ const Contact = () => {
             accountNo: decryptData(doc.data().accountNo, q2),
             firstName: decryptData(doc.data().firstName, q2),
             lastName: decryptData(doc.data().lastName, q2),
+            emailId: doc.data().emailId,
           };
           contactsData.push(decryptedData);
         });
@@ -147,8 +153,9 @@ const Contact = () => {
                         {contact.firstName} {contact.lastName}
                       </Typography>
                       <Typography variant="caption">
-                        Sort Code: {contact.sortCode}, Account Number: {contact.accountNo}
+                        Sort Code: {contact.sortCode}, Account Number: {contact.accountNo}, Email Id: {contact.emailId}
                       </Typography>
+                      
                     </TableCell>
                     <TableCell>
                       <IconButton
@@ -201,6 +208,11 @@ const Contact = () => {
              
             </Table>
           </TableContainer>
+          <Fab color="primary" aria-label="add" sx={{position: 'absolute', bottom:70, right:16}} onClick={() => {
+          router.push('/Inbox');
+        }}>
+        <InboxIcon />
+      </Fab>
         </Paper>
       </Container>
     </Layout>

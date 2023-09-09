@@ -3,14 +3,18 @@ import { useUserAuth } from '@/context/UserAuthContext';
 import { collection, addDoc, getDoc, doc, query, where, onSnapshot } from 'firebase/firestore';
 import { db } from '@/config/firebase';
 import Layout from './components/Layout'
-import { Button, TextField, Container, Typography, Paper, CssBaseline, Box, Snackbar } from '@mui/material';
+import { Button, TextField, Container, Typography, Paper, CssBaseline, Box, Snackbar, Fab } from '@mui/material';
 import { encryptData, decryptQ2 } from '@/utilities/encryptionMethods';
+import InboxIcon from '@mui/icons-material/Inbox';
+import { useRouter } from 'next/router';
 const AddContact = () => {
   const { user } = useUserAuth();
+  const router = useRouter();
   const [sortCode, setSortCode] = useState('');
   const [accountNumber, setAccountNumber] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
   const [q2, setQ2] = useState(null);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
@@ -62,6 +66,7 @@ const AddContact = () => {
         accountNo: encryptData(accountNumber, q2),
         firstName: encryptData(firstName, q2),
         lastName: encryptData(lastName, q2),
+        emailId: email
       });
 
       // Clear the input fields
@@ -69,6 +74,7 @@ const AddContact = () => {
       setAccountNumber('');
       setFirstName('');
       setLastName('');
+      setEmail('');
 
       setSnackbarColor('success');
       setSnackbarMessage('Contact added successfully!');
@@ -169,11 +175,23 @@ const AddContact = () => {
             fullWidth
             required
           />
+          <TextField
+            label="Email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            variant="outlined"
+            margin="normal"
+            fullWidth
+            required
+          />
+          
 
 <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2, borderRadius:'15px', backgroundColor: '#fff' }}>
             <p className='no-p'>Add Contact</p>
           </Button>
         </form>
+       
       </Paper>
       <Snackbar
         open={snackbarOpen}

@@ -38,3 +38,11 @@ background: transparent;
   button:hover{
     background-color: #5E61F4 !important;
   }
+
+  a{
+    cursor: pointer;
+  }
+
+  .text-left{
+    text-align: left !important;
+  }
