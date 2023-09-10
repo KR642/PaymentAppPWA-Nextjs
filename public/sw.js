@@ -5,7 +5,7 @@ self.addEventListener('push', function(e) {
       badge: 'badge.png'
     };
     e.waitUntil(
-      self.registration.showNotification('Your App Name', options)
+      self.registration.showNotification('Payment App', options)
     );
   });
   

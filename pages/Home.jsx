@@ -158,7 +158,15 @@ const Home = () => {
   }, []);
 
   const showNotification = (title, body) => {
-    new Notification(title, { body });
+    // new Notification(title, { body });
+    navigator.serviceWorker.register('sw.js');
+Notification.requestPermission(function(result) {
+  if (result === 'granted') {
+    navigator.serviceWorker.ready.then(function(registration) {
+      registration.showNotification(title,{body});
+    });
+  }
+});
   };
   const fetchAndDecryptBankDetails = async (userId) => {
     try {
