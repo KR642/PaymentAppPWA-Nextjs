@@ -212,17 +212,52 @@ const Home = () => {
   //   new Notification(title, { body });
   // };
 
-  const showNotification = (title, body) => {
-    // new Notification(title, { body });
-    navigator.serviceWorker.register('sw.js');
-Notification.requestPermission(function(result) {
-  if (result === 'granted') {
+//   const showNotification = (title, body) => {
+//     // new Notification(title, { body });
+//     navigator.serviceWorker.register('sw.js');
+// Notification.requestPermission(function(result) {
+//   if (result === 'granted') {
+//     navigator.serviceWorker.ready.then(function(registration) {
+//       registration.showNotification(title,{body});
+//     });
+//   }
+// });
+//   };
+
+const showNotification = (title, body) => {
+  if ('serviceWorker' in navigator) {
     navigator.serviceWorker.ready.then(function(registration) {
-      registration.showNotification(title,{body});
+      // Check for notification support
+      if (!('Notification' in window)) {
+        console.log('This browser does not support notifications.');
+        return;
+      }
+
+      // Request permission
+      try {
+        Notification.requestPermission().then((result) => {
+          if (result === 'granted') {
+            registration.showNotification(title, { body });
+          }
+        });
+      } catch (error) {
+        // For Safari
+        if (error instanceof TypeError) {
+          Notification.requestPermission((result) => {
+            if (result === 'granted') {
+              registration.showNotification(title, { body });
+            }
+          });
+        } else {
+          throw error;
+        }
+      }
     });
+  } else {
+    console.log("Service workers are not supported.");
   }
-});
-  };
+};
+
   const fetchAndDecryptBankDetails = async (userId) => {
     try {
       const bankDetailsRef = collection(db, 'BankDetails');
