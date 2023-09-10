@@ -36,7 +36,7 @@ background: transparent;
   }
 
   button:hover{
-    background-color: #5E61F4 !important;
+    background-color: #5E61F4 ;
   }
 
   a{
@@ -46,3 +46,4 @@ background: transparent;
   .text-left{
     text-align: left !important;
   }
+

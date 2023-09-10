@@ -9,6 +9,7 @@ import { decryptData, decryptQ2 } from '@/utilities/encryptionMethods'; // Impor
 
 import { db } from '@/config/firebase';
 import Layout from './components/Layout';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import {
   Button,
   TextField,
@@ -46,6 +47,22 @@ const Home = () => {
   const [q2, setQ2] = useState(null);
   const [selectedContact, setSelectedContact] = useState('');
   
+
+  const shareData = () =>{
+    const userDet = {
+      firstName: userDetails.firstName,
+      lastName: userDetails.lastName,
+      accountNo: userDetails.accountNo,
+      sortCode: userDetails.sortCode,
+    }
+    if(navigator.canShare && navigator.canShare(userDet)){
+      navigator.share(userDet);
+    }
+    else{
+      console.log("Data Sharing is not supported.");
+      console.log(userDet);
+    }
+  }
 
   const fetchQuantumRandomNumber = async () => {
     // const response = await fetch('/api/getQuantumNumber');
@@ -326,14 +343,30 @@ const Home = () => {
         >
           {!editing && userDetails ? (
             <>
+            
             <Box
             sx={{
               border:'2px solid white',
               padding:'15px',
               borderRadius:'15px',
               marginTop:3,
+              position:'relative'
             }}
             >
+              <Box sx={{
+                display:'flex', justifyContent:'flex-end', position:'absolute', right:'0px'
+              }}>
+              <Button onClick={shareData} sx={{
+                color:'white', 
+                width:'2px'
+              }}
+              className='copy-button'
+              >
+              <ContentCopyIcon/>
+            </Button>
+              </Box>
+             
+
               <Typography variant="h6">First Name: {userDetails.firstName}</Typography>
               <Typography variant="h6">Last Name: {userDetails.lastName}</Typography>
               <Typography variant="h6">Sort Code: {userDetails.sortCode}</Typography>
