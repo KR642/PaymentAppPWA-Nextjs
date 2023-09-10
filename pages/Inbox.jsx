@@ -22,15 +22,15 @@ export default function Inbox() {
   };
 
 
-  useEffect(() => {
-    Notification.requestPermission().then((permission) => {
-      if (permission === 'granted') {
-        console.log('Notification permission granted.');
-      } else {
-        console.log('Unable to get permission to notify.');
-      }
-    });
-  }, []);
+  // useEffect(() => {
+  //   Notification.requestPermission().then((permission) => {
+  //     if (permission === 'granted') {
+  //       console.log('Notification permission granted.');
+  //     } else {
+  //       console.log('Unable to get permission to notify.');
+  //     }
+  //   });
+  // }, []);
 
   const showNotification = (title, body) => {
     new Notification(title, { body });
