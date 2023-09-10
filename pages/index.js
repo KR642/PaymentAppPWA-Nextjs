@@ -9,14 +9,14 @@ import { useEffect } from 'react'
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
-  // useEffect(() => {
-  //   if ('serviceWorker' in navigator) {
-  //     navigator.serviceWorker.register('/sw.js')
-  //     .then(function() {
-  //       console.log("Service Worker Registered");
-  //     });
-  //   }
-  // })
+  useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js')
+      .then(function() {
+        console.log("Service Worker Registered");
+      });
+    }
+  })
 
   useEffect(() => {
     Notification.requestPermission().then((permission) => {
