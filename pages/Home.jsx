@@ -40,6 +40,8 @@ const Home = () => {
     sortCode: '',
     accountNo: ''
   });
+  const [pendingRequests, setPendingRequests] = useState([]);
+  const [settledRequests, setSettledRequests] = useState([]);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarColor, setSnackbarColor] = useState(''); // 'success' or 'error'
@@ -145,6 +147,133 @@ const Home = () => {
     }
   };
   
+  useEffect(() => {
+    Notification.requestPermission().then((permission) => {
+      if (permission === 'granted') {
+        console.log('Notification permission granted.');
+      } else {
+        console.log('Unable to get permission to notify.');
+      }
+    });
+  }, []);
+
+  const showNotification = (title, body) => {
+    new Notification(title, { body });
+  };
+  const fetchAndDecryptBankDetails = async (userId) => {
+    try {
+      const bankDetailsRef = collection(db, 'BankDetails');
+      const q = query(bankDetailsRef, where('userId', '==', userId));
+      const querySnapshot = await getDocs(q);
+      if (querySnapshot.empty) {
+        console.error("No bank details found");
+        return null;
+      }
+    
+      const docData = querySnapshot.docs[0].data();
+      const { firstName, lastName, sortCode, accountNo, q2 } = docData;
+    
+      if (!firstName || !lastName || !sortCode || !accountNo || !q2) {
+        console.error("Incomplete data");
+        return null;
+      }
+    
+      // Decrypt q2 to get the Quantum Key
+      const decryptedQuantumKey = decryptQ2(q2);
+    
+      // Use the Quantum Key to decrypt other fields
+      const decryptedFirstName = decryptData(firstName, decryptedQuantumKey);
+      const decryptedLastName = decryptData(lastName, decryptedQuantumKey);
+      const decryptedSortCode = decryptData(sortCode, decryptedQuantumKey);
+      const decryptedAccountNo = decryptData(accountNo, decryptedQuantumKey);
+    
+      if (!decryptedFirstName || !decryptedLastName || !decryptedSortCode || !decryptedAccountNo) {
+        console.error("Decryption failed");
+        return null;
+      }
+    
+      const decryptedDetails = {
+        firstName: decryptedFirstName,
+        lastName: decryptedLastName,
+        sortCode: decryptedSortCode,
+        accountNo: decryptedAccountNo,
+        quantumKey: decryptedQuantumKey
+      };
+    
+      return decryptedDetails;
+    } catch (error) {
+      console.error("Error fetching and decrypting bank details:", error);
+      return null;
+    }
+  };
+  useEffect(() => {
+    if (!user || !user.email || !user.uid) {
+      return;
+    }
+
+    let oldPendingLength = 0;
+    let oldSettledLength = 0;
+  
+
+    const q1 = query(collection(db, "PaymentRequests1"), 
+      where("sentTo", "==", user.email),
+      where("settleStatus", "==", "Pending")
+    );
+
+    const q2 = query(collection(db, "PaymentRequests1"),
+      where("initiatedBy", "==", user.uid),
+      where("settleStatus", "==", "Settled")
+    );
+
+    const unsubscribe1 = onSnapshot(q1, async (querySnapshot) => {
+      const newPendingLength = querySnapshot.size;
+    if (newPendingLength > oldPendingLength) {
+      showNotification('New Pending Request', 'You have a new pending request.');
+    }
+    oldPendingLength = newPendingLength;
+      const pendingDocs = [];
+      const newPendingDocs = [];
+      for (const doc of querySnapshot.docs) {
+        const data = doc.data();
+        const userId = data.initiatedBy;
+        const decryptedDetails = await fetchAndDecryptBankDetails(userId);
+        pendingDocs.push({ ...data, id: doc.id, bankDetails: decryptedDetails });
+      }
+      if (newPendingDocs.length > pendingRequests.length) {
+        showNotification('New Pending Request', 'You have a new pending request.');
+      }
+      setPendingRequests(newPendingDocs);
+      setPendingRequests(pendingDocs);
+    });
+
+    const unsubscribe2 = onSnapshot(q2, async (querySnapshot) => {
+      const newSettledLength = querySnapshot.size;
+    if (newSettledLength > oldSettledLength) {
+      showNotification('Request Settled', 'One of your requests has been settled.');
+    }
+    oldSettledLength = newSettledLength;
+      const settledDocs = [];
+      const newSettledDocs = [];
+      for (const doc of querySnapshot.docs) {
+        const data = doc.data();
+        const userId = data.initiatedBy;
+        const decryptedDetails = await fetchAndDecryptBankDetails(userId);
+        settledDocs.push({ ...data, id: doc.id, bankDetails: decryptedDetails });
+      }
+      if (newSettledDocs.length > settledRequests.length) {
+        showNotification('Request Settled', 'One of your requests has been settled.');
+      }
+      setSettledRequests(newSettledDocs);
+      setSettledRequests(settledDocs);
+    });
+
+    return () => {
+      unsubscribe1();
+      unsubscribe2();
+    };
+  }, [user]);
+
+
   useEffect(() => {
     const fetchQ2 = async () => {
       if (user && user.uid) { 

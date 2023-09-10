@@ -117,6 +117,21 @@ export default function Inbox() {
     setOpen(true);
   };
 
+
+  useEffect(() => {
+    Notification.requestPermission().then((permission) => {
+      if (permission === 'granted') {
+        console.log('Notification permission granted.');
+      } else {
+        console.log('Unable to get permission to notify.');
+      }
+    });
+  }, []);
+
+  const showNotification = (title, body) => {
+    new Notification(title, { body });
+  };
+
   // Function to close modal
   const handleClose = () => {
     setOpen(false);
@@ -173,6 +188,10 @@ export default function Inbox() {
       return;
     }
 
+    let oldPendingLength = 0;
+    let oldSettledLength = 0;
+  
+
     const q1 = query(collection(db, "PaymentRequests1"), 
       where("sentTo", "==", user.email),
       where("settleStatus", "==", "Pending")
@@ -184,24 +203,44 @@ export default function Inbox() {
     );
 
     const unsubscribe1 = onSnapshot(q1, async (querySnapshot) => {
+      const newPendingLength = querySnapshot.size;
+    // if (newPendingLength > oldPendingLength) {
+    //   showNotification('New Pending Request', 'You have a new pending request.');
+    // }
+    oldPendingLength = newPendingLength;
       const pendingDocs = [];
+      const newPendingDocs = [];
       for (const doc of querySnapshot.docs) {
         const data = doc.data();
         const userId = data.initiatedBy;
         const decryptedDetails = await fetchAndDecryptBankDetails(userId);
         pendingDocs.push({ ...data, id: doc.id, bankDetails: decryptedDetails });
       }
+      // if (newPendingDocs.length > pendingRequests.length) {
+      //   showNotification('New Pending Request', 'You have a new pending request.');
+      // }
+      setPendingRequests(newPendingDocs);
       setPendingRequests(pendingDocs);
     });
 
     const unsubscribe2 = onSnapshot(q2, async (querySnapshot) => {
+      const newSettledLength = querySnapshot.size;
+    // if (newSettledLength > oldSettledLength) {
+    //   showNotification('Request Settled', 'One of your requests has been settled.');
+    // }
+    oldSettledLength = newSettledLength;
       const settledDocs = [];
+      const newSettledDocs = [];
       for (const doc of querySnapshot.docs) {
         const data = doc.data();
         const userId = data.initiatedBy;
         const decryptedDetails = await fetchAndDecryptBankDetails(userId);
         settledDocs.push({ ...data, id: doc.id, bankDetails: decryptedDetails });
       }
+      // if (newSettledDocs.length > settledRequests.length) {
+      //   showNotification('Request Settled', 'One of your requests has been settled.');
+      // }
+      setSettledRequests(newSettledDocs);
       setSettledRequests(settledDocs);
     });
 

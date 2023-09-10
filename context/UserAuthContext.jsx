@@ -32,6 +32,9 @@ export function UserAuthContextProvider({children}) {
         }
     }, []);
 
+
+    
+
     return (
         <userAuthContext.Provider value={{user, signUp, logIn, resetPassword}}>
             {children}
