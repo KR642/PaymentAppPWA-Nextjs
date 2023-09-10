@@ -147,15 +147,66 @@ const Home = () => {
     }
   };
   
+  // useEffect(() => {
+  //   Notification.requestPermission().then((permission) => {
+  //     if (permission === 'granted') {
+  //       console.log('Notification permission granted.');
+  //     } else {
+  //       console.log('Unable to get permission to notify.');
+  //     }
+  //   });
+  // }, []);
+
+
+  // useEffect(() => {
+  //   // Check if Notification API is available
+  //   if (typeof Notification !== "undefined") {
+  //     Notification.requestPermission().then((permission) => {
+  //       if (permission === "granted") {
+  //         console.log("Notification permission granted.");
+  //       } else {
+  //         console.log("Unable to get permission to notify.");
+  //       }
+  //     });
+  //   } else {
+  //     // Handle the case where Notification API is not available
+  //     console.log("This browser does not support notifications.");
+  //   }
+  // }, []);
+
   useEffect(() => {
-    Notification.requestPermission().then((permission) => {
-      if (permission === 'granted') {
-        console.log('Notification permission granted.');
-      } else {
-        console.log('Unable to get permission to notify.');
+    // Check if Notification API is available
+    if (typeof Notification !== "undefined") {
+      try {
+        Notification.requestPermission().then((permission) => {
+          if (permission === "granted") {
+            console.log("Notification permission granted.");
+          } else {
+            console.log("Unable to get permission to notify.");
+          }
+        });
+      } catch (error) {
+        // Safari doesn't return a promise for requestPermissions and
+        // it throws a TypeError. It takes a callback as the first
+        // argument instead.
+        if (error instanceof TypeError) {
+          Notification.requestPermission((permission) => {
+            if (permission === "granted") {
+              console.log("Notification permission granted.");
+            } else {
+              console.log("Unable to get permission to notify.");
+            }
+          });
+        } else {
+          throw error;
+        }
       }
-    });
+    } else {
+      // Handle the case where Notification API is not available
+      console.log("This browser does not support notifications.");
+    }
   }, []);
+  
 
   const showNotification = (title, body) => {
     new Notification(title, { body });
