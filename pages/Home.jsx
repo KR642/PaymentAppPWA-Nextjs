@@ -48,6 +48,33 @@ const Home = () => {
   const [selectedContact, setSelectedContact] = useState('');
   
 
+  const handleShare = async () => {
+
+    const userDet = {
+      firstName: userDetails.firstName,
+      lastName: userDetails.lastName,
+      accountNo: userDetails.accountNo,
+      sortCode: userDetails.sortCode,
+    }
+    // Check if the Web Share API is available
+    if (navigator.share) {
+      try {
+        const composedText = `First Name: ${userDet.firstName}, Last Name: ${userDet.lastName}, Account Number: ${userDet.accountNo}, Sort Code: ${userDet.sortCode}`
+        // Web Share API call
+        await navigator.share({
+          title: "Bank Details",
+          text: composedText,
+         
+        });
+        console.log("Content shared successfully!");
+      } catch (err) {
+        console.error("Failed to share:", err);
+      }
+    } else {
+      console.log("Web Share API not supported.");
+    }
+  };
+
   const shareData = () =>{
     const userDet = {
       firstName: userDetails.firstName,
@@ -317,6 +344,9 @@ const Home = () => {
     return /^[0-9]{8}$/.test(accountNumber);
   };
 
+  
+
+
   if (loading || user == null) {
     return <h1>Loading...</h1>;
   }
@@ -356,7 +386,7 @@ const Home = () => {
               <Box sx={{
                 display:'flex', justifyContent:'flex-end', position:'absolute', right:'0px'
               }}>
-              <Button onClick={shareData} sx={{
+              <Button onClick={handleShare} sx={{
                 color:'white', 
                 width:'2px'
               }}
