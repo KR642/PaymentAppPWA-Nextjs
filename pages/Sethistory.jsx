@@ -16,7 +16,7 @@ export default function SetHistory() {
     }
 
     // Create a query against the collection.
-    const q = query(collection(db, "PaymentRequests1"), 
+    const q = query(collection(db, "PaymentRequests"), 
       where("sentTo", "==", user.email),
       where("settleStatus", "in", ["Settled", "Approved"])
     );

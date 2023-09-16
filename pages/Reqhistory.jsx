@@ -16,7 +16,7 @@ export default function ReqHistory() {
       return;
     }
     // Create a query against the collection.
-    const q = query(collection(db, "PaymentRequests1"), 
+    const q = query(collection(db, "PaymentRequests"), 
       where("initiatedBy", "==", user.uid),
       where("settleStatus", "in", ["Pending", "Approved"])
     );

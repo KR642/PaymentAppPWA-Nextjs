@@ -96,12 +96,12 @@ export default function Inbox() {
     let oldSettledLength = 0;
   
 
-    const q1 = query(collection(db, "PaymentRequests1"), 
+    const q1 = query(collection(db, "PaymentRequests"), 
       where("sentTo", "==", user.email),
       where("settleStatus", "==", "Pending")
     );
 
-    const q2 = query(collection(db, "PaymentRequests1"),
+    const q2 = query(collection(db, "PaymentRequests"),
       where("initiatedBy", "==", user.uid),
       where("settleStatus", "==", "Settled")
     );
@@ -156,8 +156,9 @@ export default function Inbox() {
 
   const allRequests = [...pendingRequests, ...settledRequests];
 
+
   const handleSettleStatus = async (requestId, newStatus) => {
-    const requestRef = doc(db, "PaymentRequests1", requestId);
+    const requestRef = doc(db, "PaymentRequests", requestId);
     await updateDoc(requestRef, {
       settleStatus: newStatus,
     });
@@ -190,8 +191,8 @@ export default function Inbox() {
                 // primary={`Amount: ${request.amount}`}
                 primary={
                   request.settleStatus === 'Pending'
-                    ? `A request of amount: ${request.amount} from ${request.bankDetails.firstName} ${request.bankDetails.lastName} has been recieved for " ${request.description} "`
-                    : `Amount: ${request.amount} you requested to ${request.sentTo} for ${request.description} is now settled. Please confirm if you have received this.`
+                  ? `A request of amount: ${request.amount} from ${(request.bankDetails && request.bankDetails.firstName) || 'Unknown'} ${(request.bankDetails && request.bankDetails.lastName) || ''} has been received for " ${request.description} "`
+                  : `Amount: ${request.amount} you requested to ${request.sentTo} for ${request.description} is now settled. Please confirm if you have received this.`
                 }
                 sx={{
                   marginLeft:"1rem"
@@ -209,8 +210,8 @@ export default function Inbox() {
   <DialogContentText>
     {selectedRequest ? (
       selectedRequest.settleStatus === 'Pending'
-        ? `A request of amount: ${selectedRequest.amount} from ${selectedRequest.bankDetails.firstName} ${selectedRequest.bankDetails.lastName} has been received for " ${selectedRequest.description} "`
-        : `Amount: ${selectedRequest.amount} you requested to ${selectedRequest.sentTo} for ${selectedRequest.description} is now settled. Please confirm if you have received this.`
+      ? `A request of amount: ${selectedRequest.amount} from ${(selectedRequest.bankDetails && selectedRequest.bankDetails.firstName) || 'Unknown'} ${(selectedRequest.bankDetails && selectedRequest.bankDetails.lastName) || ''} has been received for " ${selectedRequest.description} "`
+      : `Amount: ${selectedRequest.amount} you requested to ${selectedRequest.sentTo} for ${selectedRequest.description} is now settled. Please confirm if you have received this.`
     ) : 'Loading...'}
   </DialogContentText>
 </DialogContent>

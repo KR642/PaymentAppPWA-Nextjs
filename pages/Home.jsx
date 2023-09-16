@@ -313,12 +313,12 @@ const showNotification = (title, body) => {
     let oldSettledLength = 0;
   
 
-    const q1 = query(collection(db, "PaymentRequests1"), 
+    const q1 = query(collection(db, "PaymentRequests"), 
       where("sentTo", "==", user.email),
       where("settleStatus", "==", "Pending")
     );
 
-    const q2 = query(collection(db, "PaymentRequests1"),
+    const q2 = query(collection(db, "PaymentRequests"),
       where("initiatedBy", "==", user.uid),
       where("settleStatus", "==", "Settled")
     );

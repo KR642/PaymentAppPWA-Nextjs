@@ -80,7 +80,7 @@ const ViewContact = () => {
     }
   
     try {
-      const paymentRequestRef = collection(db, 'PaymentRequests1');
+      const paymentRequestRef = collection(db, 'PaymentRequests');
       await addDoc(paymentRequestRef, {
         amount,
         description: desc,
