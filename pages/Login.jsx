@@ -87,7 +87,7 @@ export default function Login() {
           </Button>
           <Box mt={2} textAlign="center">
             <Typography>
-              Don't have an account? <Link href="/Register">Sign Up</Link>
+              Dont have an account? <Link href="/Register">Sign Up</Link>
             </Typography>
             <Typography mt={1}>
               Forgot Password? <Link href="/forgotpassword">Click here</Link>
