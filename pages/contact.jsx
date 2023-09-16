@@ -24,6 +24,7 @@ import {
 } from '@mui/material';
 import { Edit as EditIcon, Delete as DeleteIcon, Add as AddIcon } from '@mui/icons-material';
 import InboxIcon from '@mui/icons-material/Inbox';
+import Stack from '@mui/material/Stack';
 
 
 const Contact = () => {
@@ -140,9 +141,9 @@ const Contact = () => {
           <TableContainer sx={{ minWidth: '100%', paddingBottom: '2rem' }}>
             <Table>
               <TableHead>
-                <TableRow>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Actions</TableCell>
+                <TableRow >
+                  <TableCell sx={{color:'white'}}>Name</TableCell>
+                  <TableCell sx={{color:'white'}}>Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -163,7 +164,7 @@ const Contact = () => {
                         aria-label="Edit"
                         color="primary"
                       >
-                        <EditIcon />
+                        <EditIcon sx={{color:'white'}}/>
                       </IconButton>
                       <IconButton
   onClick={() => {
@@ -175,7 +176,7 @@ const Contact = () => {
   aria-label="Delete"
   color="secondary"
 >
-  <DeleteIcon />
+  <DeleteIcon  sx={{color:'red'}}/>
 </IconButton>
                     </TableCell>
                   </TableRow>
@@ -187,6 +188,7 @@ const Contact = () => {
             color:"",
             position: 'absolute',
             width: 400,
+            borderRadius:'35px',
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
@@ -196,11 +198,29 @@ const Contact = () => {
             gap: '1em'
           }}
         >
-          <Typography variant="h6" sx={{color:'black'}}>Are you sure you want to delete this contact?</Typography>
-          <div>
-            <Button variant="outlined" color="primary" onClick={() => setModalOpen(false)}>No</Button>
-            <Button variant="contained" color="secondary" onClick={handleDelete}>Yes</Button>
-          </div>
+          <Typography variant="h5" sx={{color:'black'}}>Confirm Delete</Typography>
+          <Typography variant="body2" sx={{color:'black'}}>Are you sure you want to delete this contact?</Typography>
+
+          <Stack direction="row" justifyContent="flex-end" alignItems="flex-end" spacing={2}>
+          <Button variant="outlined" sx={{
+            backgroundColor:'transparent', 
+            color:'#9546C4',
+            borderColor:'transparent',
+            '&:hover': {
+              backgroundColor: 'rgba(0, 0, 0, 0.1)',  // Slight grey on hover
+              borderColor: 'transparent'
+            }
+            }} onClick={() => setModalOpen(false)}>Cancel</Button>
+          <Button variant="contained" disableElevation sx={{
+            backgroundColor:'transparent',
+             color:'#9546C4',
+              borderColor:'transparent',
+              '&:hover': {
+                backgroundColor: 'rgba(0, 0, 0, 0.1)',  // Slight grey on hover
+                borderColor: 'transparent'
+              }}} onClick={handleDelete}>Delete</Button>
+          </Stack>
+          
         </Paper>
       </Modal>
 

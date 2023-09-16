@@ -4,6 +4,12 @@ body .background-gradient {
     background: linear-gradient(to bottom, #CB2B93, #9546C4, #5E61F4) !important;
   }
 
+  body .background-g {
+    height: 90vh;
+    padding: 0 !important;
+    background: linear-gradient(to bottom, #CB2B93, #9546C4, #5E61F4) !important;
+  }
+
   .fl{
     display: flex;
     align-self: flex-start;

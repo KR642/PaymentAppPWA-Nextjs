@@ -5,6 +5,7 @@ import styles from '@/styles/Home.module.css'
 import Welcome from './components/Welcome'
 import { BrowserRouter } from 'react-router-dom'
 import { useEffect } from 'react'
+import Login from './Login'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -21,7 +22,7 @@ export default function Home() {
 
   return (
     <>
-      <Welcome />
+      <Login/>
     </>
   )
 }

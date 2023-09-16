@@ -2,6 +2,10 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Button, TextField, Container, Typography, Paper, CssBaseline, Box } from '@mui/material';
 import { useUserAuth } from '@/context/UserAuthContext';
+import InputAdornment from '@mui/material/InputAdornment';
+import PersonIcon from '@mui/icons-material/Person';
+import LockIcon from '@mui/icons-material/Lock';
+
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -40,33 +44,50 @@ export default function Login() {
           Login
         </Typography>
         <form onSubmit={handleSubmit} sx={{ width: '100%', mt: 3 }}>
-          <TextField
-            label="Email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            variant="outlined"
-            margin="normal"
-            fullWidth
-            required
-          />
-          <TextField
-            label="Password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            variant="outlined"
-            margin="normal"
-            fullWidth
-            required
-          />
+        <TextField
+      
+  label="Username"
+  type="email"
+  value={email}
+  onChange={(e) => setEmail(e.target.value)}
+  variant="outlined"
+  margin="normal"
+  placeholder='Enter UserName'
+  fullWidth
+  required
+  InputProps={{
+    startAdornment: (
+      <InputAdornment position="start">
+        <PersonIcon />
+      </InputAdornment>
+    ),
+  }}
+/>
+<TextField
+  label="Password"
+  placeholder='Enter Password'
+  type="password"
+  value={password}
+  onChange={(e) => setPassword(e.target.value)}
+  variant="outlined"
+  margin="normal"
+  fullWidth
+  required
+  InputProps={{
+    startAdornment: (
+      <InputAdornment position="start">
+        <LockIcon />
+      </InputAdornment>
+    ),
+  }}
+/>
           {error && <Typography color="error">{error}</Typography>}
           <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2, borderRadius:'15px', backgroundColor: '#fff' }}>
            <p className='no-p'>Login</p> 
           </Button>
           <Box mt={2} textAlign="center">
             <Typography>
-              New user? <Link href="/Register">Register</Link>
+              Don't have an account? <Link href="/Register">Sign Up</Link>
             </Typography>
             <Typography mt={1}>
               Forgot Password? <Link href="/forgotpassword">Click here</Link>

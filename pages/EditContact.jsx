@@ -141,6 +141,9 @@ const EditContact = ({ id }) => {
           <Typography variant="h4" gutterBottom>
             Edit Contact
           </Typography>
+          <form>
+
+        
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -196,6 +199,7 @@ const EditContact = ({ id }) => {
 
             {/* Add more fields like Sort Code and Account Number here, similar to above */}
           </Grid>
+          </form>
           <Button
             variant="contained"
             color="primary"

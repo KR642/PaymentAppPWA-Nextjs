@@ -10,6 +10,7 @@ import { decryptData, decryptQ2 } from '@/utilities/encryptionMethods'; // Impor
 import { db } from '@/config/firebase';
 import Layout from './components/Layout';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import ShareIcon from '@mui/icons-material/Share';
 import {
   Button,
   TextField,
@@ -619,7 +620,7 @@ const showNotification = (title, body) => {
               }}
               className='copy-button'
               >
-              <ContentCopyIcon/>
+              <ShareIcon/>
             </Button>
               </Box>
              
@@ -630,7 +631,7 @@ const showNotification = (title, body) => {
               <Typography variant="h6">Account Number: {userDetails.accountNo}</Typography>
               </Box>
              <Button variant="contained" color="primary" fullWidth sx={{ mt: 2, borderRadius:'15px', backgroundColor: '#fff', width:"50%" }} onClick={handleEdit}>
-                <p className='no-p'>Edit Details</p>
+                <p className='no-p'>Update Details</p>
               </Button>
               </>
           ) : (
@@ -689,9 +690,12 @@ const showNotification = (title, body) => {
             </>
           )}
           {contacts.length > 0 && (
-          <FormControl fullWidth variant="outlined" sx={{ mt: 2 }}>
-            <InputLabel id="contact-select-label">Select a Contact</InputLabel>
+          <FormControl fullWidth variant="standard" sx={{ mt: 2, color:'white' }}>
+            <InputLabel id="contact-select-label" sx={{
+              color:'white'
+            }}>Select a Contact</InputLabel>
             <Select
+          
               labelId="contact-select-label"
               id="contact-select"
               value={selectedContact}

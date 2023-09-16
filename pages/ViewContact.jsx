@@ -144,22 +144,24 @@ const ViewContact = () => {
             </CardContent>
           </Card>
         )} */}
-
+            <Typography sx={{textAlign:'center'}}>Sending money to {contact && contact.firstName} {contact && contact.lastName}</Typography>
 <form onSubmit={handleSubmit} sx={{ width: '100%', mt: 3 }}>
        
           <TextField
-            label="Amount in GBP"
+            label="Enter Amount"
             type="number"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
+            placeholder='Enter Amount'
             variant="outlined"
             margin="normal"
             fullWidth
             required
           />
           <TextField
-            label="Description"
+            label="Enter Payment Description"
             type="text"
+            placeholder='Enter Payment Description'
             value={desc}
             onChange={(e) => setDesc(e.target.value)}
             variant="outlined"
@@ -169,7 +171,7 @@ const ViewContact = () => {
           />
     
 <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2, borderRadius:'15px', backgroundColor: '#fff' }}>
-            <p className='no-p'>Sent Request to {contact && contact.firstName} {contact && contact.lastName}</p>
+            <p className='no-p'>Sent Request</p>
           </Button>
         </form>
         </Paper>

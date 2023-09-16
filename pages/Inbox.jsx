@@ -3,7 +3,7 @@ import { useUserAuth } from '@/context/UserAuthContext';
 import { getDocs, query, where, collection, onSnapshot, doc, updateDoc } from "firebase/firestore";
 import { db } from '@/config/firebase';
 import { decryptData, decryptQ2 } from '@/utilities/encryptionMethods'; // Assuming you've written this function
-import { Button, Typography, Paper, CssBaseline, List, ListItem,ListItemText, ListItemTextDialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Dialog } from '@mui/material';
+import { Button, Typography, Paper, CssBaseline, List, ListItem,ListItemText, ListItemTextDialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Dialog, Stack } from '@mui/material';
 import Layout from './components/Layout';
 import PendingIcon from '@mui/icons-material/Pending';  
 import DoneIcon from '@mui/icons-material/Done';
@@ -21,16 +21,6 @@ export default function Inbox() {
     setOpen(true);
   };
 
-
-  // useEffect(() => {
-  //   Notification.requestPermission().then((permission) => {
-  //     if (permission === 'granted') {
-  //       console.log('Notification permission granted.');
-  //     } else {
-  //       console.log('Unable to get permission to notify.');
-  //     }
-  //   });
-  // }, []);
 
   const showNotification = (title, body) => {
     new Notification(title, { body });
@@ -167,7 +157,7 @@ export default function Inbox() {
   return (
     <Layout>
       <CssBaseline />
-      <Typography variant="h4" gutterBottom sx={{textAlign:'center'}}>
+      <Typography variant="h5" gutterBottom sx={{textAlign:'center'}}>
         Inbox
       </Typography>
       <Paper elevation={0} sx={{
@@ -191,8 +181,8 @@ export default function Inbox() {
                 // primary={`Amount: ${request.amount}`}
                 primary={
                   request.settleStatus === 'Pending'
-                  ? `A request of amount: ${request.amount} from ${(request.bankDetails && request.bankDetails.firstName) || 'Unknown'} ${(request.bankDetails && request.bankDetails.lastName) || ''} has been received for " ${request.description} "`
-                  : `Amount: ${request.amount} you requested to ${request.sentTo} for ${request.description} is now settled. Please confirm if you have received this.`
+                  ? `A payment request of £${request.amount} is ${request.settleStatus}, take action`
+                  : `A payment request of £${request.amount} is ${request.settleStatus}, take action`
                 }
                 sx={{
                   marginLeft:"1rem"
@@ -204,14 +194,40 @@ export default function Inbox() {
 
         {/* Modal */}
         <Dialog open={open} onClose={handleClose} 
-        sx={{ '& .MuiDialog-paper': { width: '50%', borderRadius: '12px' } }}>
-          <DialogTitle sx={{color:'black'}}>{"Request Details"}</DialogTitle>
+        sx={{ '& .MuiDialog-paper': { width: '60%', borderRadius: '12px' } }}>
+          <DialogTitle sx={{color:'black'}}>
+          {selectedRequest ? (
+      selectedRequest.settleStatus === 'Pending'
+      ? `Settle Amount Confirmation`
+      : `Confirm Receipt of Payment`
+    ) : 'Loading...'}
+            
+            </DialogTitle>
           <DialogContent>
   <DialogContentText>
     {selectedRequest ? (
       selectedRequest.settleStatus === 'Pending'
-      ? `A request of amount: ${selectedRequest.amount} from ${(selectedRequest.bankDetails && selectedRequest.bankDetails.firstName) || 'Unknown'} ${(selectedRequest.bankDetails && selectedRequest.bankDetails.lastName) || ''} has been received for " ${selectedRequest.description} "`
-      : `Amount: ${selectedRequest.amount} you requested to ${selectedRequest.sentTo} for ${selectedRequest.description} is now settled. Please confirm if you have received this.`
+      ? <Stack>
+        <Typography sx={{
+        color:'black'
+      }}>{`Amount: ${selectedRequest.amount}`}</Typography>
+
+      <Typography sx={{color:'black'}}>{`Description: ${selectedRequest.description}`}</Typography>
+      <Typography sx={{color:'black'}}>{`Initiated By: ${selectedRequest.bankDetails.firstName} ${selectedRequest.bankDetails.lastName}`}</Typography>
+      <Typography sx={{color:'black'}}>{`Settle Status: ${selectedRequest.settleStatus}`}</Typography>
+      <Typography sx={{color:'black'}}>{`Do you want to settle this amount?`}</Typography>
+        </Stack>
+      
+      : <Stack>
+      <Typography sx={{
+      color:'black'
+    }}>{`Amount: ${selectedRequest.amount}`}</Typography>
+
+    <Typography sx={{color:'black'}}>{`Description: ${selectedRequest.description}`}</Typography>
+    <Typography sx={{color:'black'}}>{`Sent to: ${selectedRequest.sentTo}`}</Typography>
+    <Typography sx={{color:'black'}}>{`Settle Status: ${selectedRequest.settleStatus}`}</Typography>
+    <Typography sx={{color:'black'}}>{`Do you want to confirm the receipt of payment?`}</Typography>
+      </Stack>
     ) : 'Loading...'}
   </DialogContentText>
 </DialogContent>

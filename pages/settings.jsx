@@ -37,7 +37,7 @@ const Settings = () => {
         <CssBaseline />
         <Typography variant='h4' gutterBottom textAlign={'center'}>Settings</Typography>
 
-        <Paper className='background-gradient'
+        <Paper className='background-g'
         elevation={0}
         sx={{
           marginTop: 0,
