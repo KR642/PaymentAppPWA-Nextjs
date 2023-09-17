@@ -95,11 +95,11 @@ const Home = () => {
   }
 
   const fetchQuantumRandomNumber = async () => {
-    // const response = await fetch('/api/getQuantumNumber');
-    //   const data = await response.json();
-    const randomNum = 64070;
-    return randomNum;
-    // return data.randomNumber;
+    const response = await fetch('/api/getQuantumNumber');
+      const data = await response.json();
+    // const randomNum = 64070;
+    // return randomNum;
+    return data.randomNumber;
   };
   
   const crypto = require('crypto');
